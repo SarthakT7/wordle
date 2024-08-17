@@ -1,21 +1,43 @@
 import { LENGTH_OF_THE_WORD, MAX_ATTEMPTS, WORDS } from "./constants.js";
 
 
-const getWordofTheDay = () => {
-    const GAME_EPOCH_IN_MS = new Date('2022-01-01').getTime();
-    const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
+const loadAllWordsFromAPI = async () => {
+    try {
+        // GitHub raw file URL
+        const fileUrl = 'https://raw.githubusercontent.com/cymplecy/5letterWords/main/files/5letterWords.txt';
 
-    const NOW_IN_MS = new Date().getTime();
+        // Fetch the data using fetch API
+        const response = await fetch(fileUrl);
 
-    const index = Math.floor((NOW_IN_MS - GAME_EPOCH_IN_MS) / ONE_DAY_IN_MS);
+        // Ensure the request was successful
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
 
-    const word = WORDS[index + 1 % WORDS.length];
+        // Read the response as text
+        const data = await response.text();
+
+        // Split content by new lines to get each word
+        const words = data.split('\n').filter(line => line.trim() !== '');
+
+        return words;
+    } catch (error) {
+        console.error('Error fetching data from API:', error);
+        return [];
+    }
+};
+
+const getRandomWord = () => {
+
+    const randomIndex = Math.floor(Math.random() * WORDS.length);
+
+    const word = WORDS[randomIndex];
 
     return word.toUpperCase();
-
 }
 
-let WORD_OF_THE_DAY = getWordofTheDay();
+
+let CORRECT_WORD = getRandomWord();
 
 let input = document.querySelectorAll('.input1');
 let inputField = document.querySelector('.inputfield1');
@@ -23,6 +45,7 @@ let inputField = document.querySelector('.inputfield1');
 let currentAttempt = 1;
 let finalInput = "", inputCount = 0;
 
+const allWords = await loadAllWordsFromAPI();
 const calculateUserSubmission = () => {
 
     finalInput = finalInput.toUpperCase();
@@ -32,11 +55,11 @@ const calculateUserSubmission = () => {
     const colors = [];
     for (let i = 0; i < LENGTH_OF_THE_WORD; i++) {
 
-        if (finalInput[i] === WORD_OF_THE_DAY[i])
+        if (finalInput[i] === CORRECT_WORD[i])
             colors.push('GREEN');
 
         else {
-            const index = WORD_OF_THE_DAY.indexOf(finalInput[i]);
+            const index = CORRECT_WORD.indexOf(finalInput[i]);
             index == -1 ? colors.push('BLACK') : colors.push('YELLOW')
         }
     }
@@ -121,6 +144,21 @@ const handleWindowKeyUp = (e) => {
 
     if (currentAttempt <= MAX_ATTEMPTS && inputCount >= LENGTH_OF_THE_WORD) {
 
+        if (e.key == "Backspace") {
+            finalInput = finalInput.substring(0, finalInput.length - 1);
+            updateInputConfig(inputField.lastElementChild, false);
+            inputField.lastElementChild.value = "";
+            inputCount -= 1;
+        }
+    
+        if (!allWords.includes(finalInput)) {
+            const snackbar = document.getElementById('snackbar')
+            snackbar.className = "show";
+            setTimeout(function () { snackbar.className = snackbar.className.replace("show", ""); }, 3000);
+            return;
+        }
+
+
         const colors = calculateUserSubmission();
         let i = 0;
         input.forEach((element) => {
@@ -136,10 +174,10 @@ const handleWindowKeyUp = (e) => {
         if (checkIfAllGreens(colors)) {
             window.removeEventListener("keyup", handleWindowKeyUp);
             const messageDiv = document.getElementById('message')
-            const wordOfTheDay = document.getElementById('word_of_the_day')
+            const correctWord = document.getElementById('CORRECT_WORD')
 
             messageDiv.textContent = `Congratulations! You solved the wordle.`
-            wordOfTheDay.textContent = `The word was ${WORD_OF_THE_DAY}`
+            correctWord.textContent = `The word was ${CORRECT_WORD}`
 
             openDialog();
         }
@@ -153,10 +191,10 @@ const handleWindowKeyUp = (e) => {
         } else {
             window.removeEventListener("keyup", handleWindowKeyUp);
             const messageDiv = document.getElementById('message')
-            const wordOfTheDay = document.getElementById('word_of_the_day')
+            const correctWord = document.getElementById('CORRECT_WORD')
 
-            wordOfTheDay.textContent = `You couldn't solve the Wordle. Better luck next time!`
-            messageDiv.textContent = `The word was ${WORD_OF_THE_DAY}`
+            correctWord.textContent = `You couldn't solve the Wordle. Better luck next time!`
+            messageDiv.textContent = `The word was ${CORRECT_WORD}`
 
             openDialog();
 
