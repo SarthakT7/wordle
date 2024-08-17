@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <title>Wordle</title>
+</head>
+
+<body>
+    <h1 class="wordle-title">Wordle</h1>
+
+    <div class="container">
+
+        <!-- Chance 1 -->
+        <div class="inputfield1">
+            <input type="text" maxlength="1" class="input1" disabled>
+            <input type="text" maxlength="1" class="input1" disabled>
+            <input type="text" maxlength="1" class="input1" disabled>
+            <input type="text" maxlength="1" class="input1" disabled>
+            <input type="text" maxlength="1" class="input1" disabled>
+        </div>
+        <!-- Chance 2 -->
+
+        <div class="inputfield2">
+            <input type="text" maxlength="1" class="input2" disabled>
+            <input type="text" maxlength="1" class="input2" disabled>
+            <input type="text" maxlength="1" class="input2" disabled>
+            <input type="text" maxlength="1" class="input2" disabled>
+            <input type="text" maxlength="1" class="input2" disabled>
+        </div>
+        <!-- Chance 3 -->
+
+        <div class="inputfield3">
+            <input type="text" maxlength="1" class="input3" disabled>
+            <input type="text" maxlength="1" class="input3" disabled>
+            <input type="text" maxlength="1" class="input3" disabled>
+            <input type="text" maxlength="1" class="input3" disabled>
+            <input type="text" maxlength="1" class="input3" disabled>
+        </div>
+
+        <!-- Chance 4 -->
+
+        <div class="inputfield4">
+            <input type="text" maxlength="1" class="input4" disabled>
+            <input type="text" maxlength="1" class="input4" disabled>
+            <input type="text" maxlength="1" class="input4" disabled>
+            <input type="text" maxlength="1" class="input4" disabled>
+            <input type="text" maxlength="1" class="input4" disabled>
+        </div>
+
+        <!-- Chance 5 -->
+
+        <div class="inputfield5">
+            <input type="text" maxlength="1" class="input5" disabled>
+            <input type="text" maxlength="1" class="input5" disabled>
+            <input type="text" maxlength="1" class="input5" disabled>
+            <input type="text" maxlength="1" class="input5" disabled>
+            <input type="text" maxlength="1" class="input5" disabled>
+        </div>
+
+        <!-- Chance 6 -->
+
+        <div class="inputfield6">
+            <input type="text" maxlength="1" class="input6" disabled>
+            <input type="text" maxlength="1" class="input6" disabled>
+            <input type="text" maxlength="1" class="input6" disabled>
+            <input type="text" maxlength="1" class="input6" disabled>
+            <input type="text" maxlength="1" class="input6" disabled>
+        </div>
+
+    </div>
+
+    <div id="dialog" class="modal">
+        <div class="modal-content">
+            <div>
+                <span class="close-button">&times;</span>
+                <h2 id="message"></h2>
+            </div>
+            <p id="word_of_the_day"></p>
+        </div>
+    </div>
+
+
+    <script type="module" src="script.js"></script>
+</body>
+
+</html>
